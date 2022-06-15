@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>JS Reference VS Copy</title>
+    <meta charset="UTF-8">
+    <title>JS Reference VS Copy</title>
 </head>
 <body>
 
-  <script>
+<script>
     // 从 String、Number、Boolean 类型的值开始：
-     let age = 100;
-     let age2 = age;
-     console.log(age, age2);
-     age = 200;
-     console.log(age, age2);
+    let age = 100;
+    let age2 = age;
+    console.log(age, age2);
+    age = 200;
+    console.log(age, age2);
 
     // let name = 'Wes';
     // let name2 = name;
@@ -29,9 +29,9 @@
     console.log(players, team);
     // You might think we can just do something like this:
     // 也许你觉得可以直接这样修改复制后的数组
-     team[3] = 'Lux';
+    team[3] = 'Lux';
     console.log(players, team);
-      
+
 
     // however what happens when we update that array?
     // 但我们修改这个数组的时候会发生什么呢？
@@ -72,8 +72,8 @@
     // with Objects
     // 现在有一个 Object 对象
     const person = {
-      name: 'Wes Bos',
-      age: 80
+        name: 'Wes Bos',
+        age: 80
     };
 
     // 然后思考一下如何取得它的复制
@@ -83,7 +83,7 @@
 
     // how do we take a copy instead?
     // 如何才能复制它呢？
-    const cap2 = Object.assign({}, person, { number: 99, age: 12 });
+    const cap2 = Object.assign({}, person, {number: 99, age: 12});
     console.log(cap2);
 
     // We will hopefully soon see the object ...spread
@@ -93,12 +93,12 @@
     // 需要注意的是：这里的例子里面，我们用的数组和对象都只是一层嵌套，Lodash 有一个深度复制的方法，但你使用之前需要多考虑一下。
 
     const wes = {
-      name: 'Wes',
-      age: 100,
-      social: {
-        twitter: '@wesbos',
-        facebook: 'wesbos.developer'
-      }
+        name: 'Wes',
+        age: 100,
+        social: {
+            twitter: '@wesbos',
+            facebook: 'wesbos.developer'
+        }
     };
 
     // console.clear();
@@ -109,7 +109,7 @@
     const dev2 = JSON.parse(JSON.stringify(wes));
 
 
-  </script>
+</script>
 
 </body>
 </html>

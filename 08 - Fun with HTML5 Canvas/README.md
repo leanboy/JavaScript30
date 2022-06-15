@@ -1,29 +1,32 @@
 # 08 HTML5 Canvas 实现彩虹画笔绘画板指南
 
 > 作者：©[未枝丫](https://github.com/soyaine)  
-> 简介：[JavaScript30](https://javascript30.com) 是 [Wes Bos](https://github.com/wesbos) 推出的一个 30 天挑战。项目免费提供了 30 个视频教程、30 个挑战的起始文档和 30 个挑战解决方案源代码。目的是帮助人们用纯 JavaScript 来写东西，不借助框架和库，也不使用编译器和引用。现在你看到的是这系列指南的第 8 篇。完整指南在 [GitHub](https://github.com/soyaine/JavaScript30)，喜欢请 Star 哦♪(^∇^*)
+> 简介：[JavaScript30](https://javascript30.com) 是 [Wes Bos](https://github.com/wesbos) 推出的一个 30 天挑战。项目免费提供了 30 个视频教程、30
+> 个挑战的起始文档和 30 个挑战解决方案源代码。目的是帮助人们用纯 JavaScript 来写东西，不借助框架和库，也不使用编译器和引用。现在你看到的是这系列指南的第 8
+> 篇。完整指南在 [GitHub](https://github.com/soyaine/JavaScript30)，喜欢请 Star 哦♪(^∇^*)
 
 ## 实现效果
 
 ![HTML5 Canvas 画板效果](https://cl.ly/412q1g0u3N31/Screen%20recording%202017-01-04%20at%2007.38.05%20PM.gif)
 
-用 HTML5 中的 Canvas 的路径绘制实现一个绘画板，可供鼠标画画，颜色呈彩虹色渐变，画笔大小同样呈渐变效果。这部分不涉及 CSS 内容，全部由 JS 来实现。[在线体验请看这个链接](http://soyaine.cn/JavaScript30/08%20-%20Fun%20with%20HTML5%20Canvas/index-SOYAINE.html)。
+用 HTML5 中的 Canvas 的路径绘制实现一个绘画板，可供鼠标画画，颜色呈彩虹色渐变，画笔大小同样呈渐变效果。这部分不涉及 CSS 内容，全部由 JS
+来实现。[在线体验请看这个链接](http://soyaine.cn/JavaScript30/08%20-%20Fun%20with%20HTML5%20Canvas/index-SOYAINE.html)。
 
 ## 涉及特性
 
 Canvas：
 
 - 基本属性
-	- `getContext()`
-	- `strokeStyle`
-	- `fillStyle`
-	- `lineCap`
-	- `lineJoin`
+    - `getContext()`
+    - `strokeStyle`
+    - `fillStyle`
+    - `lineCap`
+    - `lineJoin`
 - 路径绘制
-	- `beginPath()`
-	- `lineTo()`
-	- `moveTo()`
-	
+    - `beginPath()`
+    - `lineTo()`
+    - `moveTo()`
+
 鼠标事件处理：
 
 - `mousemove`
@@ -36,13 +39,13 @@ Canvas：
 1. 获取 HTML 中的 `<canvas>` 元素，并设定宽度和高度
 2. `.getContext('2d')` 获取上下文，下面以 ctx 表示
 3. 设定 ctx 基本属性
-	- 描边和线条颜色
-	- 线条宽度
-	- 线条末端形状
+    - 描边和线条颜色
+    - 线条宽度
+    - 线条末端形状
 4. 绘画效果
-	1. 设定一个用于标记绘画状态的变量
-	2. 鼠标事件监听，不同类型的事件将标记变量设为不同值
-	3. 编写发生绘制时触发的函数，设定绘制路径起点、终点
+    1. 设定一个用于标记绘画状态的变量
+    2. 鼠标事件监听，不同类型的事件将标记变量设为不同值
+    3. 编写发生绘制时触发的函数，设定绘制路径起点、终点
 5. 线条彩虹渐变效果（运用 hsl 的 `h` 值的变化，累加）
 6. 线条粗细渐变效果（设定一个范围，当超出这个范围时，线条粗细进行逆向改变
 
@@ -65,20 +68,24 @@ var ctx = canvas.getContext('2d');
 - `strokeStyle`：线条描边的颜色
 - `fillStyle`：填充的颜色
 
-Canvas 让 JS 具备了动态绘制图形的能力，但在这里例子中我们只需要使用到一些简单的[路径绘制方法](https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes#绘制路径)，路径是点和线的集合，下面只列举了我们用到的方法：
+Canvas 让 JS
+具备了动态绘制图形的能力，但在这里例子中我们只需要使用到一些简单的[路径绘制方法](https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes#绘制路径)
+，路径是点和线的集合，下面只列举了我们用到的方法：
 
 - `beginPath()`：新建一条路径
 - `stroke()`：绘制轮廓
 - `moveTo()`：（此次）绘制操作的起点
 - `lineTo()`：路径的终点
 
-### 彩虹渐变颜色——HSL  
+### 彩虹渐变颜色——HSL
 
-在这个挑战中，涉及到改变线条的颜色，如何实现彩虹的渐变效果？我们需要利用 HSL 色彩模式，首先可以去这个网站 [http://mothereffinghsl.com](http://mothereffinghsl.com/) 感受一下 HSL 不同色彩值对应的效果。
+在这个挑战中，涉及到改变线条的颜色，如何实现彩虹的渐变效果？我们需要利用 HSL 色彩模式，首先可以去这个网站 [http://mothereffinghsl.com](http://mothereffinghsl.com/) 感受一下
+HSL 不同色彩值对应的效果。
+
 - H(hue) 代表色调，取值为 0~360，专业术语叫色相
 - S 是饱和度，可以理解为掺杂进去的灰度值，取值为 0~1
 - L 则是亮度，取值也是 0~1，或者百分比。
-	
+
 这之中 H 值从 0 到 360 的变化代表了色相的角度的值域变化，利用这一点就可以实现绘制时线条颜色的渐变了，只需要在它的值超过 360 时恢复到 0 重新累加即可。
 
 ```js
@@ -138,7 +145,8 @@ ctx.stroke();
 
 ### 如何解决线条的衔接问题？
 
-回想一下你点进来看顶部的示例动图时，有没有注意到一个细节，中间的两个数字是由一些点构成的，而不是一条线，这是由于我写的时候速度过快造成的，这是为什么呢？是我忽略了一个问题，上面这种写法下，`lastX` 和 `offsetX` 的值其实是相等的，这就出现了只绘制出一个个点的状况，所以需要改变一下更新 last 值的位置。
+回想一下你点进来看顶部的示例动图时，有没有注意到一个细节，中间的两个数字是由一些点构成的，而不是一条线，这是由于我写的时候速度过快造成的，这是为什么呢？是我忽略了一个问题，上面这种写法下，`lastX` 和 `offsetX`
+的值其实是相等的，这就出现了只绘制出一个个点的状况，所以需要改变一下更新 last 值的位置。
 
 ```js
 

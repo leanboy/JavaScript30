@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Console 面板调试技巧</title>
+    <meta charset="UTF-8">
+    <title>Console 面板调试技巧</title>
 </head>
 <body>
 
-  <p onClick="makeGreen()">×点×我×呀×</p>
+<p onClick="makeGreen()">×点×我×呀×</p>
 
-  <script>
+<script>
     const dogs = [{
-      name: 'Snickers',
-      age: 2
+        name: 'Snickers',
+        age: 2
     }, {
-      name: 'hugo',
-      age: 8
+        name: 'hugo',
+        age: 8
     }];
 
     function makeGreen() {
-      const p = document.querySelector('p');
-      p.style.color = '#BADA55';
-      p.style.fontSize = '50px';
+        const p = document.querySelector('p');
+        p.style.color = '#BADA55';
+        p.style.fontSize = '50px';
     }
 
     // Regular
@@ -62,13 +62,13 @@
 
     // Grouping together
     dogs.forEach(dog => {
-      console.group();
-      // console.groupCollapsed(); 
-      // 收起列表
-      console.log(`${dog.name}`);
-      console.log(`${dog.age}`);
-      console.log(`${dog.name} 有 ${dog.age} 岁了`);
-      console.groupEnd();
+        console.group();
+        // console.groupCollapsed();
+        // 收起列表
+        console.log(`${dog.name}`);
+        console.log(`${dog.age}`);
+        console.log(`${dog.name} 有 ${dog.age} 岁了`);
+        console.groupEnd();
     });
 
     console.table(dogs);
@@ -87,12 +87,12 @@
     // timing
     console.time('fetch my data');
     fetch("https://api.github.com/users/soyaine")
-      .then(data => data.json())
-      .then(data => {
-        console.timeEnd('fetch my data');
-        console.log(data);
-      });
+        .then(data => data.json())
+        .then(data => {
+            console.timeEnd('fetch my data');
+            console.log(data);
+        });
     // console.timeEnd('fetch my data');
-  </script>
+</script>
 </body>
 </html>

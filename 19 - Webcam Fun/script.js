@@ -1,4 +1,4 @@
-window.onload = function() {
+window.onload = function () {
     canvas = document.querySelector('canvas');
     video = document.querySelector('video');
     ctx = canvas.getContext('2d');
@@ -16,10 +16,10 @@ window.onload = function() {
     }
 
     //调用摄像头数据
-            askWebcam();
+    askWebcam();
 
     //绑定change事件动态修改图片颜色
-    slider.onchange = function(e) {
+    slider.onchange = function (e) {
         //先将canvas恢复至原始截图
         ctx.putImageData(origindata, 0, 0);
         const target = e.target;
@@ -81,13 +81,13 @@ function askWebcam() {
                 width: 300,
                 height: 200
             }
-        }, function(stream) {
+        }, function (stream) {
             //若成功
             video.srcObject = stream;
-            video.onloadedmetadata = function(e) {
+            video.onloadedmetadata = function (e) {
                 video.play();
             }
-        }, function(err) {
+        }, function (err) {
             console.log('Error occured:' + err.name);
         });
     } else {

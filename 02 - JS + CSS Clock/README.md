@@ -1,10 +1,12 @@
 # 02 纯 JS、CSS 时钟 中文指南
 
 > 作者：©[未枝丫](https://github.com/soyaine)  
-> 简介：[JavaScript30](https://javascript30.com) 是 [Wes Bos](https://github.com/wesbos) 推出的一个 30 天挑战。项目免费提供了 30 个视频教程、30 个挑战的起始文档和 30 个挑战解决方案源代码。目的是帮助人们用纯 JavaScript 来写东西，不借助框架和库，也不使用编译器和引用。现在你看到的是这系列指南的第 2 篇。完整指南在 [GitHub](https://github.com/soyaine/JavaScript30)，喜欢请 Star 哦♪(^∇^*)
+> 简介：[JavaScript30](https://javascript30.com) 是 [Wes Bos](https://github.com/wesbos) 推出的一个 30 天挑战。项目免费提供了 30 个视频教程、30
+> 个挑战的起始文档和 30 个挑战解决方案源代码。目的是帮助人们用纯 JavaScript 来写东西，不借助框架和库，也不使用编译器和引用。现在你看到的是这系列指南的第 2
+> 篇。完整指南在 [GitHub](https://github.com/soyaine/JavaScript30)，喜欢请 Star 哦♪(^∇^*)
 
 > 创建时间：2016-12-21    
-最后更新：2017-01-06
+> 最后更新：2017-01-06
 
 ## 实现效果
 
@@ -21,6 +23,7 @@
 3. 每一秒改变一次指针状态
 
 **涉及到的特性：**
+
 - `transform-origin`
 - `transform: rotate()`
 - `transition`
@@ -33,8 +36,8 @@
 ### CSS 部分
 
 1. 调整指针的初始位置以及旋转的轴点
-    [transform-origin](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-origin)
-    
+   [transform-origin](https://developer.mozilla.org/en-US/docs/Web/CSS/transform-origin)
+
     ```css
     transform-origin: 100%; // 或者可以用 right
     ```
@@ -45,13 +48,13 @@
     ```
 
 3. 设置指针成为回弹的形式
-	设置 `transition-time-function` 的值，以实现秒针“滴答滴答”的效果。此外注意 `transform` 中的 `rotate` （旋转）属性由角度来控制，可以试着在页面上修改这个参数来查看效果。
-	
-    ![图片示例](https://cl.ly/33260X2a0K41/Screen%20recording%202016-12-21%20at%2010.35.13%20AM.gif)
-	
-	**Chrome 调试技巧**：
-	- 对于角度这样的数值，点击后按住 `Shift` 或者 `Ctrl` 不放，按上下箭头可以快速调值。
-	- 点击上图中图标可以图形化调整 cubic-bezier 的值。
+   设置 `transition-time-function` 的值，以实现秒针“滴答滴答”的效果。此外注意 `transform` 中的 `rotate` （旋转）属性由角度来控制，可以试着在页面上修改这个参数来查看效果。
+
+   ![图片示例](https://cl.ly/33260X2a0K41/Screen%20recording%202016-12-21%20at%2010.35.13%20AM.gif)
+
+   **Chrome 调试技巧**：
+    - 对于角度这样的数值，点击后按住 `Shift` 或者 `Ctrl` 不放，按上下箭头可以快速调值。
+    - 点击上图中图标可以图形化调整 cubic-bezier 的值。
 
 4. 用伪元素给表盘添加一个中心点
     ```css
@@ -71,45 +74,47 @@
                     0 0 10px rgba(0,0,0,0.2);
         }
     ```
-	
-	这里有一个小细节，指针旋转轴与表盘中心并不重合。解决办法是将指针设置为垂直居中，我采用的办法是给指针设置 `margin-top: -height/2` ，由于每个指针高度不同，所以需要给每个指针指定。
-	
+
+   这里有一个小细节，指针旋转轴与表盘中心并不重合。解决办法是将指针设置为垂直居中，我采用的办法是给指针设置 `margin-top: -height/2` ，由于每个指针高度不同，所以需要给每个指针指定。
+
 ### JS 部分
 
 这个部分的指南我没有写太多的代码，主要是便于你自己思考操作，如果实在需要看代码是怎么写的，请看 index-SOYAINE.html 文件。
 
 1. 利用定时器自动更新时间
-	定时器 `setInterval` 可以每隔一段固定的时间将操作放入执行队列，利用这个特性，加入页面后每秒更新一次时间，以实现秒针转动的效果。
-	
-	```javascript
-	 setInterval(setDate, 1000);
-	 // setDate 为每 1000 毫秒触发的 function
-	 ```
-	
+   定时器 `setInterval` 可以每隔一段固定的时间将操作放入执行队列，利用这个特性，加入页面后每秒更新一次时间，以实现秒针转动的效果。
+
+   ```javascript
+    setInterval(setDate, 1000);
+    // setDate 为每 1000 毫秒触发的 function
+    ```
+
 2. 获取三个指针对应的 HTML 元素，留待后续操作
-	
+
 3. 编写 setDate 方法
-	1. 创建 Date 对象
-	2. 获取当前时间的小时、分钟、秒
-	3. 利用此刻的数据，计算每个指针对应的角度
-		```javascript
-		const secondDeg = 90 + (second / 60) * 360;
-		```
-		以秒针为例，由于此页面初始状态中秒针为水平的，所以零点时（时间起始位置）应用到元素上的 `rotate` 旋转角度值应该为 90°。秒针转一圈为 60s，所以每一秒对应表盘上的角度值即为 (...s / 60s) * 360°。
-		
-		Wes Bos 给出的解决方案中，时针是和秒针一样每一小时跳动一次，若要模拟更加真实的时钟，要使时针在一小时内缓慢的移动到下一个时间点。所以可以利用上分钟，计算每一分钟对时针的角度影响，将加到时针角度上即可。
-		
-		```javascript
-		const hourDeg = (90 + (hour / 12) * 360 + (min / 12 / 60) * 360);
-		```
-		
-	4. 将角度值赋值给 HTML 元素的 `style` 中的 `transform` 属性
+    1. 创建 Date 对象
+    2. 获取当前时间的小时、分钟、秒
+    3. 利用此刻的数据，计算每个指针对应的角度
+       ```javascript
+       const secondDeg = 90 + (second / 60) * 360;
+       ```
+       以秒针为例，由于此页面初始状态中秒针为水平的，所以零点时（时间起始位置）应用到元素上的 `rotate` 旋转角度值应该为 90°。秒针转一圈为 60s，所以每一秒对应表盘上的角度值即为 (...s / 60s) *
+       360°。
+
+       Wes Bos 给出的解决方案中，时针是和秒针一样每一小时跳动一次，若要模拟更加真实的时钟，要使时针在一小时内缓慢的移动到下一个时间点。所以可以利用上分钟，计算每一分钟对时针的角度影响，将加到时针角度上即可。
+
+       ```javascript
+       const hourDeg = (90 + (hour / 12) * 360 + (min / 12 / 60) * 360);
+       ```
+
+    4. 将角度值赋值给 HTML 元素的 `style` 中的 `transform` 属性
 
 ## 延伸思考
 
-> 2017-01-06 更新完善，感谢 [@cody1991 提的 issue](https://github.com/soyaine/JavaScript30/issues/1) 
+> 2017-01-06 更新完善，感谢 [@cody1991 提的 issue](https://github.com/soyaine/JavaScript30/issues/1)
 
-此处存在一个小瑕疵，当秒针旋转一圈之后回到初始位置，开始第二圈旋转，角度值的变化时 444° → 90° → 96° .... 这个过程中，指针会先逆时针从 444° 旋转至 90°，再继续我们期望的顺时针旋转，由于秒针变换时间只有 0.05s，所以呈现的效果就是秒针闪了一下，如果想要观察细节，可以将 `.second` 设为 `transition: all 1s`。要解决这个问题，目前找到了两种解决办法：
+此处存在一个小瑕疵，当秒针旋转一圈之后回到初始位置，开始第二圈旋转，角度值的变化时 444° → 90° → 96° .... 这个过程中，指针会先逆时针从 444° 旋转至 90°，再继续我们期望的顺时针旋转，由于秒针变换时间只有
+0.05s，所以呈现的效果就是秒针闪了一下，如果想要观察细节，可以将 `.second` 设为 `transition: all 1s`。要解决这个问题，目前找到了两种解决办法：
 
 #### 方法一
 

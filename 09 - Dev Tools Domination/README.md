@@ -1,20 +1,25 @@
 # 09 Console 调试技巧指南
 
 > 作者：©[未枝丫](https://github.com/soyaine)  
-> 简介：[JavaScript30](https://javascript30.com) 是 [Wes Bos](https://github.com/wesbos) 推出的一个 30 天挑战。项目免费提供了 30 个视频教程、30 个挑战的起始文档和 30 个挑战解决方案源代码。目的是帮助人们用纯 JavaScript 来写东西，不借助框架和库，也不使用编译器和引用。现在你看到的是这系列指南的第 9 篇。完整指南在 [GitHub](https://github.com/soyaine/JavaScript30)，喜欢请 Star 哦♪(^∇^*)
+> 简介：[JavaScript30](https://javascript30.com) 是 [Wes Bos](https://github.com/wesbos) 推出的一个 30 天挑战。项目免费提供了 30 个视频教程、30
+> 个挑战的起始文档和 30 个挑战解决方案源代码。目的是帮助人们用纯 JavaScript 来写东西，不借助框架和库，也不使用编译器和引用。现在你看到的是这系列指南的第 9
+> 篇。完整指南在 [GitHub](https://github.com/soyaine/JavaScript30)，喜欢请 Star 哦♪(^∇^*)
 
 > 创建时间：2017-01-06    
-最后更新：2017-09-24
+> 最后更新：2017-09-24
 
 ## 实现效果
 
-这个部分主要是实践了一些在 Console 面板里的调试技巧，如果硬要说什么实现效果的话，那可能就是……“必备！你不得不知道的 10 种炫酷调试技巧！”建议直接打开[页面](https://soyaine.github.io/JavaScript30/09%20-%20Dev%20Tools%20Domination/index-SOYAINE.html)后按 F12 查看各种输出结果。
+这个部分主要是实践了一些在 Console 面板里的调试技巧，如果硬要说什么实现效果的话，那可能就是……“必备！你不得不知道的 10
+种炫酷调试技巧！”建议直接打开[页面](https://soyaine.github.io/JavaScript30/09%20-%20Dev%20Tools%20Domination/index-SOYAINE.html)后按 F12
+查看各种输出结果。
 
 ## 过程指南
 
 ### 给页面标签添加断点
 
-在按 F12 出现的 Chrome 开发工具中，在 Elements 选项卡之中，选择页面的某个标签（以 `<p>`为例），右键 → Break on → Attributes modifications。即可为该元素添加断点，当它的属性发生改变时，会自动定位到页面代码中的对应行。
+在按 F12 出现的 Chrome 开发工具中，在 Elements 选项卡之中，选择页面的某个标签（以 `<p>`为例），右键 → Break on → Attributes
+modifications。即可为该元素添加断点，当它的属性发生改变时，会自动定位到页面代码中的对应行。
 
 你如此设置之后，点击页面中的文字试一试效果。
 
@@ -58,7 +63,7 @@ console.log(p);
 console.dir(p);
 ```
 
-不同的地方在于，`log` 输出这个 DOM  的 HTML 标签，而 `dir` 则会输出这个 DOM 元素的属性列表。
+不同的地方在于，`log` 输出这个 DOM 的 HTML 标签，而 `dir` 则会输出这个 DOM 元素的属性列表。
 
 ### 清空 console 面板输出内容
 
@@ -122,4 +127,5 @@ fetch("https://api.github.com/users/soyaine")
 **~\(≧▽≦)/~调试技巧这部分就结束啦，拿起宝剑去开疆扩土吧~**
 
 ## ChangeLog
+
 - 2017-09-24 fix typo [issue #29](https://github.com/soyaine/JavaScript30/issues/29)

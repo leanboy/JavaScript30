@@ -1,12 +1,16 @@
 # 11 自定义视频播放器
 
-> 作者：[@DrakeXiang](https://github.com/DrakeXiang) 　Review：[@zzh466](http://github.com/zzh466)、[@Xing Liu](https://github.com/S1ngS1ng)  
-> 简介：[JavaScript30](https://javascript30.com) 是 [Wes Bos](https://github.com/wesbos) 推出的一个 30 天挑战。项目免费提供了 30 个视频教程、30 个挑战的起始文档和 30 个挑战解决方案源代码。目的是帮助人们用纯 JavaScript 来写东西，不借助框架和库，也不使用编译器和引用。现在你看到的是这系列指南的第 10 篇。完整指南在 [GitHub](https://github.com/soyaine/JavaScript30)，喜欢请 Star 哦♪(^∇^*)
+> 作者：[@DrakeXiang](https://github.com/DrakeXiang)  Review：[@zzh466](http://github.com/zzh466)
+> 、[@Xing Liu](https://github.com/S1ngS1ng)  
+> 简介：[JavaScript30](https://javascript30.com) 是 [Wes Bos](https://github.com/wesbos) 推出的一个 30 天挑战。项目免费提供了 30 个视频教程、30
+> 个挑战的起始文档和 30 个挑战解决方案源代码。目的是帮助人们用纯 JavaScript 来写东西，不借助框架和库，也不使用编译器和引用。现在你看到的是这系列指南的第 10
+> 篇。完整指南在 [GitHub](https://github.com/soyaine/JavaScript30)，喜欢请 Star 哦♪(^∇^*)
 
 > 创建时间：2017-02-06    
-最后更新：2017-09-24
+> 最后更新：2017-09-24
 
 ## 实现目标
+
 * 为 `video` 元素添加自定义样式的播放控制面板
     * 可滑动调节音量、播放速度
     * 可通过按钮快进、回退
@@ -14,17 +18,19 @@
     * 可点击或拖动进度条选择视频播放进度
 
 ## 解决思路
+
 0. 首先，我们已经有了 HTML 文件，里面包含各种播放器用到的元素，格式也已经在 CSS 文件中帮我们设置好了
 1. 在 JS 中选择我们需要添加功能的 HTML 元素，建立好变量
 2. 用 JS 写好播放器的功能
 3. 给第一步中获取的元素加上事件监听和回调，即可实现功能
 
 ## 知识点
+
 * `video` 对象的各种属性、方法和事件
-	* `paused`
-  	* `play()`
-  	* `pause()`
-  	* `currentTime`
+    * `paused`
+        * `play()`
+        * `pause()`
+        * `currentTime`
 
 ## 过程指南
 
@@ -63,7 +69,9 @@ const ranges = player.querySelectorAll('.player__slider');
 ```
 
 ### **播放/暂停**
+
 #### 功能实现
+
 视频最主要的功能自然就是播放和暂停了，而且其他功能也需要视频播放之后才能看出效果，所以我们先来实现这个功能。
 `video` 对象有一个叫 `paused` 的属性来判断视频是否在播放；另外还提供了两个方法来进行播放和暂停的操作：`.play()` 方法可以播放视频，`.pause()` 方法暂停播放
 
@@ -89,6 +97,7 @@ function tooglePlay() {
     video.paused ? video.play() : video.pause()
 }
 ```
+
 或者我们可以用字符串来执行属性方法：
 
 ```javascript
@@ -98,9 +107,11 @@ function tooglePlay() {
 
 }
 ```
+
 这种方法可能会觉得看起来别扭，但在有些情况下是挺有用的。现在我们点击视频的话已经能够正常切换播放和暂停的状态了。
 
 #### **图标切换**
+
 为了让用户知晓播放器状态，我们需要直观地通过图标来展示。当然，我们可以在 `togglePlay()` 方法中处理，不过更好的方式是给播放器加上另一个事件监听，用视频本身的播放状态来判断。
 
 这是因为，除了点击播放/暂停按钮以外，我们还可以通过比如键盘快捷键、第三方插件甚至耳机上的操作按钮等其他方式来控制。因此，通过视频本身的播放状态来判断是最不容易出错的。代码如下：
@@ -116,12 +127,15 @@ video.addEventListener('play', updateButton)；
 video.addEventListener('pause', updateButton)；
 ```
 
-上面的代码中，我们使用了关键字 `this`。其实在调用 `updateButton` 的时候，这个方法已经被绑定在了 `addEventListener` 的调用者上，也就是绑定到了 `video` 上。因此，`this.paused` 在这里就相当于 `video.paused`。
+上面的代码中，我们使用了关键字 `this`。其实在调用 `updateButton` 的时候，这个方法已经被绑定在了 `addEventListener` 的调用者上，也就是绑定到了 `video` 上。因此，`this.paused`
+在这里就相当于 `video.paused`。
 
 ### **快退/快进**
+
 在 HTML 中，我们已经给快退/快进键添加了一个 `data-skip` 属性，对应的值即为快退/快进的秒数。
 
-我们先来写事件处理。首先要有一个回调函数，叫 `skip`。事件监听的对象，当然是 `skipButtons`，对应的就是快退/快进两个按键。可以尝试一下，如果我们直接在命令行输出这个 `skipButtons`，会得到一个数组。因此，我们需要用 `forEach` 来遍历一下，给每一个按钮都添加上事件监听：
+我们先来写事件处理。首先要有一个回调函数，叫 `skip`。事件监听的对象，当然是 `skipButtons`，对应的就是快退/快进两个按键。可以尝试一下，如果我们直接在命令行输出这个 `skipButtons`
+，会得到一个数组。因此，我们需要用 `forEach` 来遍历一下，给每一个按钮都添加上事件监听：
 
 ```javascript
 // 逻辑
@@ -145,9 +159,11 @@ function skip() {
 `data-**` 这样的属性以前提到过了，在 JavaScript 中需要通过 `.dataset.**` 来访问。因为我们获取到的是字符串，所以要通过 `parseFloat` 来转换一下。
 
 ### **音量和播放速度**
+
 接下来我们实现通过控制面板上两个滑动条来控制视频的音量和播放速度。这两个滑动条是 `range` 类型的 `input` 元素，在元素属性中我们指定了他们各自的最大、最小值和调节的“步值”。
 
-其中需要注意的是，他们分别有一个 `volume` 和 `playbackRate` 的 `name` 属性，我们起这两个名字是因为他们是 `video` 对象里对应音量和播放速度的两个属性名。这样起名并不是必须的，但可以让我们后面 js 的操作更精简。
+其中需要注意的是，他们分别有一个 `volume` 和 `playbackRate` 的 `name` 属性，我们起这两个名字是因为他们是 `video` 对象里对应音量和播放速度的两个属性名。这样起名并不是必须的，但可以让我们后面 js
+的操作更精简。
 
 通过监听两个 `input` 元素的 `change` 事件，我们就可以通过其 `value` 值改变视频属性了：
 
@@ -159,9 +175,12 @@ function handleRangeUpdate() {
 //遍历 ranges 给两个滑动条都绑定事件
 ranges.forEach(range => range.addEventListener('change', handleRangeUpdate));
 ```
-因为我们上面说过，`input` 的 `name` 值和 `video` 对象中的属性名是一样的，可以看到在 `handleRangeUpdate` 函数中我们利用了 `this.name` 的写法来代表属性，，这里的 `this` 一样是 `addEventListener` 的调用者，即 `range`。
 
-现在调节两个滑动条我们已经可以改变视频相应属性了，美中不足就是滑块的调节并不是实时的，而要等我们放开鼠标才会生效，这是因为 `change` 事件只在 `blur`，也就是元素失去焦点的时候才会触发。要解决这个问题我们可以把 `change` 事件改为 `input` 事件；另一种比较传统的方法是同时监听鼠标在该元素上的 `mousemove` 事件来执行更新的操作，
+因为我们上面说过，`input` 的 `name` 值和 `video` 对象中的属性名是一样的，可以看到在 `handleRangeUpdate` 函数中我们利用了 `this.name` 的写法来代表属性，，这里的 `this`
+一样是 `addEventListener` 的调用者，即 `range`。
+
+现在调节两个滑动条我们已经可以改变视频相应属性了，美中不足就是滑块的调节并不是实时的，而要等我们放开鼠标才会生效，这是因为 `change` 事件只在 `blur`
+，也就是元素失去焦点的时候才会触发。要解决这个问题我们可以把 `change` 事件改为 `input` 事件；另一种比较传统的方法是同时监听鼠标在该元素上的 `mousemove` 事件来执行更新的操作，
 在原来的代码下加上一行：
 
 ```javascript
@@ -171,9 +190,11 @@ ranges.forEach(range => range.addEventListener('mousemove', handleRangeUpdate));
 这样鼠标在这滑动条上移动的时候也会更新视频属性了，只不过只有在鼠标拖动滑块的时候才会有值的改变。
 
 ### **进度条操作**
+
 我们的进度条需要能在鼠标点击和拖动的时候改变视频播放的进度。我们先实现进度条随着视频播放更新进度的功能。
 
-进度条显示进度的原理很简单，`progress__filled` 这个元素是一个 `flex` 定位的元素，我们改变其 `flex-basis` 的百分比值就可以调节它所占父元素的宽度。`flex-basis` 值代表 `flex` 元素在**主轴**方向上的初始尺寸。关于 `flex-basis` 的更多信息请参考 [MDN](https://developer.mozilla.org/zh-CN/docs/Web/CSS/flex-basis)
+进度条显示进度的原理很简单，`progress__filled` 这个元素是一个 `flex` 定位的元素，我们改变其 `flex-basis` 的百分比值就可以调节它所占父元素的宽度。`flex-basis` 值代表 `flex`
+元素在**主轴**方向上的初始尺寸。关于 `flex-basis` 的更多信息请参考 [MDN](https://developer.mozilla.org/zh-CN/docs/Web/CSS/flex-basis)
 
 ```javascript
 // 根据当前播放时间来调节进度条
@@ -182,7 +203,10 @@ function handleProgress() {
     progressBar.style.flexBasis = `${percent}%`;
 }
 ```
-现在只要运行 `handleProgress` 这个函数就能够更新对应的进度条，但我们需要的是自动执行这个操作。也许你会想到利用 `setInterval` 设置一个定时器，其实 `video` 元素给我们提供了更好的方法—— `timeupdate` 事件。这个事件会在媒体文件的 `currentTime` 属性改变的时触发，更多信息请参考 [MDN](https://developer.mozilla.org/zh-CN/docs/Web/Events/timeupdate)
+
+现在只要运行 `handleProgress` 这个函数就能够更新对应的进度条，但我们需要的是自动执行这个操作。也许你会想到利用 `setInterval` 设置一个定时器，其实 `video`
+元素给我们提供了更好的方法—— `timeupdate` 事件。这个事件会在媒体文件的 `currentTime`
+属性改变的时触发，更多信息请参考 [MDN](https://developer.mozilla.org/zh-CN/docs/Web/Events/timeupdate)
 
 事件操作如下：
 
@@ -192,7 +216,8 @@ video.addEventListener('timeupdate', handleProgress);
 
 现在随着视频的播放，进度条也会更新进度了。
 
-接着我们需要点击进度条时调整播放进度，那么我们改变进度，或者说宽度就需要得到鼠标点击的位置，这可以通过事件对象的 `offsetX` 属性来找到，该属性代表鼠标点击位置相对于该元素的水平偏移。得到偏移之后计算出该位置的百分比，那么也就知道了进度的百分比：
+接着我们需要点击进度条时调整播放进度，那么我们改变进度，或者说宽度就需要得到鼠标点击的位置，这可以通过事件对象的 `offsetX`
+属性来找到，该属性代表鼠标点击位置相对于该元素的水平偏移。得到偏移之后计算出该位置的百分比，那么也就知道了进度的百分比：
 
 ```javascript
 ...
@@ -236,13 +261,17 @@ progress.addEventListener('mouseup', () => mousedown = false);
 progress.addEventListener('mousemove', (e) => mousedown && scrub(e));
 ```
 
-我们利用逻辑和操作符 `&&` 的**短路**特性来实现 “只有当 `mousedown` 为 `true`，或可类型转换为 `true` 时才执行 `scrub(e)`” 的判断操作，由于逻辑和的判断必须两个都为真时才成立，所以若第一项不为真，那么 js 就不会去管第二项是什么，因此也就不会执行 `scrub(e)`。这种写法在实际项目中是挺常见的，算是一个小技巧，希望大家可以熟悉并使用。
+我们利用逻辑和操作符 `&&` 的**短路**特性来实现 “只有当 `mousedown` 为 `true`，或可类型转换为 `true` 时才执行 `scrub(e)`”
+的判断操作，由于逻辑和的判断必须两个都为真时才成立，所以若第一项不为真，那么 js 就不会去管第二项是什么，因此也就不会执行 `scrub(e)`。这种写法在实际项目中是挺常见的，算是一个小技巧，希望大家可以熟悉并使用。
 
 ## **结语**
+
 至此，我们已经实现了控制面板的绝大部分功能，最后一个留给大家自己尝试的功能是全屏播放：
+
 * 在控制面板中添加一个全屏按钮
 * 点击该按钮后可以进入/退出全屏模式
 
 ## ChangeLog
+
 - 2017-02-06 完稿
 - 2017-09-24 add missing code by [issue#30](https://github.com/soyaine/JavaScript30/issues/30)
