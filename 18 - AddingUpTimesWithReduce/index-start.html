@@ -5,6 +5,7 @@
     <title>Videos</title>
 </head>
 <body>
+<p>总播放时间为：<span id="totaltime"></span></p>
 <ul class="videos">
     <li data-time="5:43">
         Video 1
@@ -182,6 +183,18 @@
     </li>
 </ul>
 <script>
+    const li = Array.from(document.querySelectorAll('li[data-time]'));
+    const timeStrings = li.map(item => item.dataset['time']);
+    let hour = 0, min = 0, sec = 0;
+    for (let timeString of timeStrings) {
+        let timeArr = timeString.split(':').map(item => Number(item));
+        sec += timeArr[0] * 60 + timeArr[1];
+    }
+    hour = Math.floor(sec / 3600);
+    min = Math.floor((sec - 3600 * hour) / 60);
+    sec = sec % 60;
+    const totaltime = document.querySelector('#totaltime');
+    totaltime.innerHTML = `${hour}小时${min}分${sec}秒`;
 </script>
 </body>
 </html>
