@@ -47,8 +47,32 @@
 
 <script>
     const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+    const ul = document.getElementById('bands');
+    document.body.append(ul);
 
+    function delPrefix(str) {
+        let map = new Map([
+            ['The ', 4],
+            ['A ', 2],
+            ['An ', 3]
+        ]);
+        for (let [key, value] of map) {
+            if (str.startsWith(key)) {
+                return str.slice(value);
+            }
+        }
+        return str;
+    }
 
+    bands.sort((str1, str2) => {
+        return delPrefix(str1) < delPrefix(str2) ? -1 : 1;
+    });
+
+    for (let str of bands) {
+        const li = document.createElement('li');
+        li.innerHTML = str;
+        ul.append(li);
+    }
 </script>
 
 </body>
