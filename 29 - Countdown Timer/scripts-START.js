@@ -1,10 +1,9 @@
 const endTime = document.querySelector(".display__end-time");
 const leftTime = document.querySelector(".display__time-left");
 const buttons = document.querySelectorAll("button");
-const date = new Date();
-var left = 0;//剩余时间
-var end = 0;//结束时间
-var timer;//interval计时器
+let left = 0;//剩余时间
+let end = 0;//结束时间
+let timer;//interval计时器
 leftTime.innerHTML = left;//未操作时，剩余时间显示0
 
 //为button绑定点击事件
@@ -21,7 +20,7 @@ document.customForm.addEventListener('submit', function (e) {
 });
 
 //定义点击后的回调
-function clickAction(e) {
+function clickAction() {
     let deltaTime;
     deltaTime = this.dataset.time;
     updateTime(deltaTime);
@@ -33,10 +32,11 @@ function clickAction(e) {
 
 //updateTime
 function updateTime(delta) {
-    left = left + parseInt(delta, 0);
-    end = date.getTime() + left * 1000;
+    left = parseInt(delta);
+    end = new Date().getTime() + left * 1000;
     leftTime.innerHTML = left;
-    endTime.innerHTML = new Date(end).toLocaleTimeString();
+    endTime.innerHTML = 'Be back at ' +
+        new Date(end).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit'});
 }
 
 //每秒刷新时间
@@ -48,7 +48,7 @@ function updateTimer() {
 
     // 设置新的Timer
     timer = setInterval(function () {
-        if (left == 0) {
+        if (left === 0) {
             endTime.innerHTML = 'End';
             clearInterval(timer);
         } else {
